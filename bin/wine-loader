@@ -1,0 +1,19 @@
+#!/bin/zsh
+
+export LC_CTYPE="en_US.UTF-8"
+export WINEDLLOVERRIDES="mscoree,mshtml="
+export WINEDEBUG="fixme-esync"
+export WINEPREFIX="$HOME/Library/Application Support/wine-data"
+
+if [ ! -f "$1" ]; then
+	echo "usage: wine-loader <exe> [args...]"
+	exit
+fi
+
+self=`dirname "$0"`
+self=`readlink -f "$self"`
+
+[ "$debug" = '1' ] && "$self/wine64" "$@"
+[ "$debug" = '1' ] || nohup "$self/wine64" "$@" >/dev/null 2>/dev/null &
+
+exit
